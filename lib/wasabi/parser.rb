@@ -78,7 +78,8 @@ module Wasabi
 
     def parse_endpoint
       if service_node = service
-        endpoint = service_node.at_xpath('.//soap11:address/@location', 'soap11' => SOAP_1_1)
+        endpoint = service_node.at_xpath('.//soap11:address[starts-with(@location, \'https\')]/@location', 'soap11' => SOAP_1_1)
+        endpoint ||= service_node.at_xpath('.//soap11:address/@location', 'soap11' => SOAP_1_1)
         endpoint ||= service_node.at_xpath(service_node, './/soap12:address/@location', 'soap12' => SOAP_1_2)
       end
 
